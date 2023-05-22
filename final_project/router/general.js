@@ -67,17 +67,21 @@ public_users.get('/author/:author', function (req, res) {
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
     //Write your code here
-    const title = req.params.title;
-    const matchingTitles = [];
+    try {
+        const title = req.params.title;
+        const matchingTitles = [];
 
-    // Iterate through the 'books' object to find books with matching authors
-    for (const key in books) {
-        if (books.hasOwnProperty(key) && books[key].title === title) {
-            matchingTitles.push(books[key]);
+        for (const key in books) {
+            if (books.hasOwnProperty(key) && books[key].title === title) {
+                matchingTitles.push(books[key]);
+            }
         }
-    }
 
-    res.send(matchingTitles);
+        res.send(matchingTitles);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Fetching Error');
+    }
 });
 
 //  Get book review
